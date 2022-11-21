@@ -17,7 +17,8 @@
 
 <% // Get product name to search for
 String name = request.getParameter("productName");
-name = name.trim(); // to handle empty input like spaces
+if(name != null)
+	name = name.trim(); // to handle empty input like spaces
 		
 //Note: Forces loading of SQL Server driver
 try
