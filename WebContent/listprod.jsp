@@ -74,7 +74,7 @@ catch (java.lang.ClassNotFoundException e)
 
 		NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
-		out.println("<table border=\"1\"><tr><th></th><th>Product Name</th>" +
+		out.println("<table id=\"prodT\" border=\"1\"><tr><th></th><th>Product Name</th>" +
 			"<th>Product Price</th></tr>");
 
 		// loop to print out table of products
