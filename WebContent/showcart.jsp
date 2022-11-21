@@ -7,9 +7,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Your Shopping Cart</title>
+	<link rel="stylesheet" href="styles.css">
+	<title>Your Shopping Cart</title>
 </head>
 <body>
+
+<header class="header">
+	<nav>
+		<ul>
+			<li><a href="listprod.jsp">All Products</a></li>
+			<li><a href="listorder.jsp">List All Orders</a></li>
+			<li><a href="showcart.jsp">Shopping Cart</a></li>
+		</ul>
+	</nav>
+</header>
 
 <%
 // Get the current list of products
