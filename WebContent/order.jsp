@@ -30,10 +30,11 @@ if(custId != null)
 // Determine if there are products in the shopping cart
 if (productList != null);
 
+boolean hasId = false;
+
 // If either are not true, display an error message
 // Look up customer ID in database
 try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
-	boolean hasId = false;
 	int id = Integer.parseInt(custId);
 
 	String s = "SELECT customerId FROM customer WHERE customerId = ?";
@@ -43,29 +44,56 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 
 	if(rs.next()) {
 		hasId = true;
-		out.println("<H1>Works</H1>");
-
-	} else {
-		out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
-
 	}
 
 	// Valid ID
   } catch (NumberFormatException e) {
-	out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
-
+	//out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
+	hasId = false;
   } catch (SQLException ex) {
 	  out.println("SQLException: " + ex);
-
   }
+%>
 
+<%
   if (productList == null)
   {	out.println("<H1>Your shopping cart is empty!</H1>");
-	  productList = new HashMap<String, ArrayList<Object>>();
-  }
+	//productList = new HashMap<String, ArrayList<Object>>();
+  } else if(!hasId) {
+	out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
+  } else {
+
+	NumberFormat currFormat = NumberFormat.getCurrencyInstance();
+	double total = 0.0;
+	
+	try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
+		out.println("<H1>Order Summary</H1>");
 		
-try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
-	out.println("<H1>Works</H1>");
+		out.println("<table><tr><th>Product Id</th><th>Product Name</th>" +
+					"<th>Quantity</th><th>Price</th><th>Subtotal</th></tr>");
+
+		Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
+		while (iterator.hasNext()) { 
+			Map.Entry<String, ArrayList<Object>> entry = iterator.next();
+			ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
+
+			String productId = (String) product.get(0);
+			String pname = (String) product.get(1);
+			String price = (String) product.get(2);
+			double pr = Double.parseDouble(price);
+			int qty = ( (Integer) product.get(3)).intValue();
+			total += pr * qty;
+
+			out.println("<tr><td>" + productId + "</td><td>" + 
+				pname + "</td><td>" + qty + "</td><td>" + currFormat.format(pr) + "</td><td>" + 
+				currFormat.format(pr * qty) + "</td></tr>");
+		}
+		out.println("<tr><td colspan=\"4\" align=\"right\"><b>Total</b></td><td align=\"right\">" + 
+					currFormat.format(total) + "</td></tr>");
+		out.println("</table>");
+
+	}
+
 }
 // Save order information to database
 
