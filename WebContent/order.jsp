@@ -12,7 +12,12 @@
 </head>
 <body>
 
-<% 
+<%
+// Connection info
+String url = "jdbc:sqlserver://cosc304_sqlserver:1433;databaseName=orders;TrustServerCertificate=True";
+String uid = "sa";
+String pw = "304#sa#pw";
+
 // Get customer id
 String custId = request.getParameter("customerId");
 @SuppressWarnings({"unchecked"})
@@ -26,22 +31,42 @@ if(custId != null)
 if (productList != null);
 
 // If either are not true, display an error message
-try{
+// Look up customer ID in database
+try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
+	boolean hasId = false;
 	int id = Integer.parseInt(custId);
+
+	String s = "SELECT customerId FROM customer WHERE customerId = ?";
+	PreparedStatement ps = con.prepareStatement(s);
+	ps.setInt(1, id);
+	ResultSet rs = ps.executeQuery();
+
+	if(rs.next()) {
+		hasId = true;
+		out.println("<H1>Works</H1>");
+
+	} else {
+		out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
+
+	}
+
 	// Valid ID
   } catch (NumberFormatException e) {
 	out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
+
+  } catch (SQLException ex) {
+	  out.println("SQLException: " + ex);
+
   }
+
   if (productList == null)
   {	out.println("<H1>Your shopping cart is empty!</H1>");
 	  productList = new HashMap<String, ArrayList<Object>>();
   }
-// Make connection
-String url = "jdbc:sqlserver://cosc304_sqlserver:1433;databaseName=orders;TrustServerCertificate=True";
-String uid = "sa";
-String pw = "304#sa#pw";
 		
-try ( Connection con = DriverManager.getConnection(url, uid, pw); )
+try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
+	out.println("<H1>Works</H1>");
+}
 // Save order information to database
 
 	/*
