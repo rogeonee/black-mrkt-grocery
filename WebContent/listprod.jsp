@@ -22,11 +22,27 @@
 <h1>Search for the products you want to buy:</h1>
 
 <form method="get" action="listprod.jsp">
-<input type="text" name="productName" size="50">
-<input type="submit" value="Submit"><input type="reset" value="Reset"> (Leave blank for all products)
+	<select id="dropDown" name="dropDown" size="1" name="category">
+		<option>All</option>
+		<option>Beverages</option>
+		<option>Condiments</option>
+		<option>Confections</option>
+		<option>Dairy Products</option>
+		<option>Grains/Cereals</option>
+		<option>Meat/Poultry</option>
+		<option>Produce</option>
+		<option>Seafood</option>
+	</select>
+	<input type="text" name="productName" size="50">
+	<input type="submit" value="Submit"><input type="reset" value="Reset">
 </form>
 
-<% // Get product name to search for
+<h3>All Products</h3>
+
+<%
+String category = request.getParameter("dropDown");
+
+// Get product name to search for
 String name = request.getParameter("productName");
 if(name != null)
 	name = name.trim(); // to handle empty input like spaces
@@ -52,36 +68,61 @@ catch (java.lang.ClassNotFoundException e)
 	try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 
 		Statement s = con.createStatement();
-		String sql = "SELECT productId, productName, productPrice FROM product";
+		String sql = "SELECT productId, productName, categoryName, productPrice " +
+						"FROM product JOIN category " +
+						"ON product.categoryId = category.categoryId ";
 		boolean hasName = name != null && !name.equals(""); // checks for name input
+		boolean hasCategory = category != null && !category.equals("All");
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		int option = 0;
 
 		// search was empty
-		if(!hasName) {
+		if(!hasName && !hasCategory) {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 
-		} else { // search was not empty
+		} else if(hasCategory && !hasName) {
+			sql += " WHERE categoryName = ?";
+			option = 1;
+
+		} else if(hasName && !hasCategory) {
 			name = "%" + name + "%";
 			sql += " WHERE productName LIKE ?";
+			option = 2;
 
-			ps = con.prepareStatement(sql);
-			ps.setString(1, name);
-			rs = ps.executeQuery();
+		} else {
+			name = "%" + name + "%";
+			sql += " WHERE categoryName = ? AND productName LIKE ?";
+			option = 3;
+
 		}
+
+		ps = con.prepareStatement(sql);
+
+		switch (option) {
+			case 1: ps.setString(1, category); break;
+			case 2: ps.setString(1, name); break;
+			case 3: ps.setString(1, category);
+					ps.setString(2, name);
+					break;
+			default: break;
+		}
+
+		rs = ps.executeQuery();
 
 		NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
 		out.println("<table id=\"prodT\" border=\"1\"><tr><th></th><th>Product Name</th>" +
-			"<th>Product Price</th></tr>");
+			"<th>Category</th><th>Product Price</th></tr>");
 
 		// loop to print out table of products
 		while(rs.next()) {
 			String pid = rs.getString(1);
 			String pname = rs.getString(2);
-			double price = rs.getDouble(3);
+			String cname = rs.getString(3);
+			double price = rs.getDouble(4);
 
 			// compose individual link for each item
 			String link = "addcart.jsp?id=" + pid + 
@@ -89,7 +130,8 @@ catch (java.lang.ClassNotFoundException e)
 							"&price=" + price;
 
 			out.println("<tr><td><a href=\"" + link + "\">Add to Cart</a></td><td>" + 
-						pname + "</td><td>" + currFormat.format(price) + "</td></tr>");
+						pname + "</td><td>" + cname + "</td><td>" + 
+						currFormat.format(price) + "</td></tr>");
 
 		}
 		out.println("</table>");
