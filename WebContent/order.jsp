@@ -8,9 +8,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="styles.css">
 	<title>Order Processing</title>
 </head>
 <body>
+
+	<header class="header">
+		<nav>
+			<ul>
+				<li><a href="listprod.jsp">All Products</a></li>
+				<li><a href="listorder.jsp">List All Orders</a></li>
+				<li><a href="showcart.jsp">Shopping Cart</a></li>
+			</ul>
+		</nav>
+	</header>
 
 <%
 // Connection info
@@ -58,7 +69,7 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
   {	out.println("<H1>Your shopping cart is empty!</H1>");
 	//productList = new HashMap<String, ArrayList<Object>>();
   } else if(!hasId) {
-	out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
+	out.println("<H1>Your customer ID is invalid! Go back and try again.</H1>");
   } else {
 
 	NumberFormat currFormat = NumberFormat.getCurrencyInstance();
@@ -66,6 +77,12 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 	
 	try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 		out.println("<H1>Order Summary</H1>");
+
+		/*
+		String sql = "INSERT INTO OrderProduct(productId, quantity, price) VALUES(?, ?, ?)";
+		PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);			
+		out.println("<h1>" + orderId + "</h1>");
+		*/
 		
 		out.println("<table><tr><th>Product Id</th><th>Product Name</th>" +
 					"<th>Quantity</th><th>Price</th><th>Subtotal</th></tr>");
@@ -82,6 +99,18 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 			int qty = ( (Integer) product.get(3)).intValue();
 			total += pr * qty;
 
+			/*
+			//pstmt.setInt(1, orderId);
+            pstmt.setInt(1, Integer.parseInt(productId));
+            pstmt.setInt(2, qty);
+            pstmt.setDouble(3, Double.parseDouble(price));
+
+			ResultSet keys = pstmt.getGeneratedKeys();
+			keys.next();
+			int orderId = keys.getInt(1);
+			*/
+
+			// Print out the table
 			out.println("<tr><td>" + productId + "</td><td>" + 
 				pname + "</td><td>" + qty + "</td><td>" + currFormat.format(pr) + "</td><td>" + 
 				currFormat.format(pr * qty) + "</td></tr>");
@@ -90,6 +119,35 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 					currFormat.format(total) + "</td></tr>");
 		out.println("</table>");
 
+		out.println("<h1>Order completed, though not recorded.</h1>");
+
+/*
+		String sql = "INSERT INTO OrderProduct(orderId, productId, quantity, price) "
+            + "VALUES(?,?,?,?)";
+            pstmt.setInt(1, orderId);
+            pstmt.setInt(2, productId);
+            pstmt.setInt(3, quantity);
+            pstmt.setDecimal(4, price);
+            int rowAffected = pstmt.executeUpdate();
+    if(rowAffected == 1)
+        {
+            ResultSet keys = pstmt.getGeneratedKeys();
+            if(keys.next())
+                orderId = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if(keys != null)  rs.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return orderId;
+    }
+}
+*/
 	}
 
 }
