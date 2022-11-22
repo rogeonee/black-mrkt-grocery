@@ -22,11 +22,9 @@ String pw = "304#sa#pw";
 String custId = request.getParameter("customerId");
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
-
 // Determine if valid customer id was entered
 if(custId != null)
     custId = custId.trim(); // trim empty spaces
-
 // Determine if there are products in the shopping cart
 if (productList != null);
 
@@ -96,7 +94,6 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 
 }
 // Save order information to database
-
 	/*
 	// Use retrieval of auto-generated keys.
 	PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);			
@@ -104,14 +101,10 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 	keys.next();
 	int orderId = keys.getInt(1);
 	*/
-
 // Insert each item into OrderProduct table using OrderId from previous INSERT
-
 // Update total amount for order record
-
 // Here is the code to traverse through a HashMap
 // Each entry in the HashMap is an ArrayList with item 0-id, 1-name, 2-quantity, 3-price
-
 /*
 	Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
 	while (iterator.hasNext())
@@ -125,13 +118,9 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
             ...
 	}
 */
-
 // Print out order summary
-
 // Clear cart if order placed successfully
-
 %>
 </BODY>
 </HTML>
-
 
