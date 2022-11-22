@@ -19,6 +19,14 @@ String custId = request.getParameter("customerId");
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
 
 // Determine if valid customer id was entered
+if(custId != null)
+    custId = custId.trim(); // trim empty spaces
+        try{
+            int id = Integer.parseInt(custId);
+            // Valid ID
+          } catch (NumberFormatException e) {
+            out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
+          }
 // Determine if there are products in the shopping cart
 // If either are not true, display an error message
 
