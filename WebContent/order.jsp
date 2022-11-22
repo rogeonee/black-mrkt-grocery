@@ -37,7 +37,11 @@ try{
 	  productList = new HashMap<String, ArrayList<Object>>();
   }
 // Make connection
-
+String url = "jdbc:sqlserver://cosc304_sqlserver:1433;databaseName=orders;TrustServerCertificate=True";
+String uid = "sa";
+String pw = "304#sa#pw";
+		
+try ( Connection con = DriverManager.getConnection(url, uid, pw); )
 // Save order information to database
 
 	/*
