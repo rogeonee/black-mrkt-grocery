@@ -21,19 +21,24 @@ HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Obje
 // Determine if valid customer id was entered
 if(custId != null)
     custId = custId.trim(); // trim empty spaces
-        try{
-            int id = Integer.parseInt(custId);
-            // Valid ID
-          } catch (NumberFormatException e) {
-            out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
-          }
-// Determine if there are products in the shopping cart
-// If either are not true, display an error message
 
+// Determine if there are products in the shopping cart
+if (productList != null);
+
+// If either are not true, display an error message
+try{
+	int id = Integer.parseInt(custId);
+	// Valid ID
+  } catch (NumberFormatException e) {
+	out.println("<H1>Your customer ID is invalid ! Go back and try again.</H1>");
+  }
+  if (productList == null)
+  {	out.println("<H1>Your shopping cart is empty!</H1>");
+	  productList = new HashMap<String, ArrayList<Object>>();
+  }
 // Make connection
 
 // Save order information to database
-
 
 	/*
 	// Use retrieval of auto-generated keys.
@@ -67,7 +72,9 @@ if(custId != null)
 // Print out order summary
 
 // Clear cart if order placed successfully
+
 %>
 </BODY>
 </HTML>
+
 
