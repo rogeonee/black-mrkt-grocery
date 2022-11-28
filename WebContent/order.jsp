@@ -137,13 +137,15 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 			ps.executeUpdate();						
 
 			out.println("<h1>Order completed.  Will be shipped soon...</h1>");
-			out.println("<h1>Your order reference number is: "+orderId+"</h1>");
+			out.println("<h1>Your order reference number is: " + orderId + "</h1>");
 			out.println("<h1>Shipping to customer: " + custId + "</h1>" +
 						"<h1>Name: " + custName + "</h1>");
 
 			out.println("<h2><a href=\"index.jsp\">Return to shopping</a></h2>");
+			out.println("<h2><a href=\"ship.jsp\">Track order</a></h2>");
 			
 			// Clear session variables (cart)
+			session.setAttribute("orderId", Integer.valueOf(orderId));
 			session.setAttribute("productList", null);
 
 	} catch (SQLException ex) {
