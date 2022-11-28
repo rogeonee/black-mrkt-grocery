@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login Screen</title>
+	<title>Login Screen</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+	
+<%@ include file="header.jsp" %>
 
 <div style="margin:0 auto;text-align:center;display:inline">
 

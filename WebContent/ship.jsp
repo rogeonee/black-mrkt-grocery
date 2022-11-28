@@ -10,8 +10,11 @@
 <html>
 <head>
 	<title>OUR NAME Grocery Shipment Processing</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<%@ include file="header.jsp" %>
 
 <%
 	// TODO: Get order id
@@ -39,7 +42,7 @@
 	} catch (SQLException e) {
 		out.println("<h1>Invalid Order ID. Please, contact Customer Support.</h1>");
 	}
-	session.setAttribute("orderId", null);
+	//session.setAttribute("orderId", null);
 %>	
 	
 <%
