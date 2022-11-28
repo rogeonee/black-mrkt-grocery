@@ -4,6 +4,7 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 <!DOCTYPE html>
 <html>
@@ -28,6 +29,7 @@
 String url = "jdbc:sqlserver://cosc304_sqlserver:1433;databaseName=orders;TrustServerCertificate=True";
 String uid = "sa";
 String pw = "304#sa#pw";
+String custName = "";
 
 // Get customer id
 String custId = request.getParameter("customerId");
@@ -46,13 +48,14 @@ boolean hasId = false;
 try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 	int id = Integer.parseInt(custId);
 
-	String s = "SELECT customerId FROM customer WHERE customerId = ?";
+	String s = "SELECT customerId, firstName, lastName FROM customer WHERE customerId = ?";
 	PreparedStatement ps = con.prepareStatement(s);
 	ps.setInt(1, id);
 	ResultSet rs = ps.executeQuery();
 
 	if(rs.next()) {
 		hasId = true;
+		custName = rs.getString(2) + " " + rs.getString(3);
 	}
 
 	// Valid ID
@@ -71,113 +74,83 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
   } else if(!hasId) {
 	out.println("<H1>Your customer ID is invalid! Go back and try again.</H1>");
   } else {
-
+	
+	int num = Integer.parseInt(custId);
 	NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-	double total = 0.0;
 	
 	try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 		out.println("<H1>Order Summary</H1>");
 
-		/*
-		String sql = "INSERT INTO OrderProduct(productId, quantity, price) VALUES(?, ?, ?)";
-		PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);			
-		out.println("<h1>" + orderId + "</h1>");
-		*/
-		
-		out.println("<table><tr><th>Product Id</th><th>Product Name</th>" +
-					"<th>Quantity</th><th>Price</th><th>Subtotal</th></tr>");
+			// Enter order information into database
+			String sql = "INSERT INTO OrderSummary (customerId, totalAmount, orderDate) VALUES(?, 0, ?);";
+			PreparedStatement ps;
+			int orderId;
 
-		Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
-		while (iterator.hasNext()) { 
-			Map.Entry<String, ArrayList<Object>> entry = iterator.next();
-			ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
+			// Retrieve auto-generated key for orderId
+			ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setInt(1, num);
+			ps.setTimestamp(2, new java.sql.Timestamp(new Date().getTime()));
+			ps.executeUpdate();
 
-			String productId = (String) product.get(0);
-			String pname = (String) product.get(1);
-			String price = (String) product.get(2);
-			double pr = Double.parseDouble(price);
-			int qty = ( (Integer) product.get(3)).intValue();
-			total += pr * qty;
-
-			/*
-			//pstmt.setInt(1, orderId);
-            pstmt.setInt(1, Integer.parseInt(productId));
-            pstmt.setInt(2, qty);
-            pstmt.setDouble(3, Double.parseDouble(price));
-
-			ResultSet keys = pstmt.getGeneratedKeys();
+			ResultSet keys = ps.getGeneratedKeys();
 			keys.next();
-			int orderId = keys.getInt(1);
-			*/
+			orderId = keys.getInt(1);
 
-			// Print out the table
-			out.println("<tr><td>" + productId + "</td><td>" + 
-				pname + "</td><td>" + qty + "</td><td>" + currFormat.format(pr) + "</td><td>" + 
-				currFormat.format(pr * qty) + "</td></tr>");
-		}
-		out.println("<tr><td colspan=\"4\" align=\"right\"><b>Total</b></td><td align=\"right\">" + 
-					currFormat.format(total) + "</td></tr>");
-		out.println("</table>");
+			out.println("<h1>Your Order Summary</h1>");
+      	  	out.println("<table><tr><th>Product Id</th><th>Product Name</th><th>Quantity</th><th>Price</th><th>Subtotal</th></tr>");
 
-		out.println("<h1>Order completed, though not recorded.</h1>");
+        	double total = 0;
+        	Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
+        	while (iterator.hasNext())
+        	{ 
+        		Map.Entry<String, ArrayList<Object>> entry = iterator.next();
+                ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
+				String productId = (String) product.get(0);
+                out.print("<tr><td>" + productId + "</td>");
+                out.print("<td>" + product.get(1) + "</td>");
+				out.print("<td align=\"center\">" + product.get(3) + "</td>");
+                String price = (String) product.get(2);
+                double pr = Double.parseDouble(price);
+                int qty = ( (Integer) product.get(3)).intValue();
+				out.print("<td align=\"right\">" + currFormat.format(pr) + "</td>");
+               	out.print("<td align=\"right\">" + currFormat.format(pr * qty) + "</td></tr>");
+                out.println("</tr>");
+                total = total + pr * qty;
 
-/*
-		String sql = "INSERT INTO OrderProduct(orderId, productId, quantity, price) "
-            + "VALUES(?,?,?,?)";
-            pstmt.setInt(1, orderId);
-            pstmt.setInt(2, productId);
-            pstmt.setInt(3, quantity);
-            pstmt.setDecimal(4, price);
-            int rowAffected = pstmt.executeUpdate();
-    if(rowAffected == 1)
-        {
-            ResultSet keys = pstmt.getGeneratedKeys();
-            if(keys.next())
-                orderId = rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            try {
-                if(keys != null)  rs.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return orderId;
-    }
-}
-*/
+				sql = "INSERT INTO OrderProduct (orderId, productId, quantity, price) VALUES(?, ?, ?, ?)";
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, orderId);
+				ps.setInt(2, Integer.parseInt(productId));
+				ps.setInt(3, qty);
+				ps.setString(4, price);
+				ps.executeUpdate();				
+        	}
+        	out.println("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td>"
+                       			+"<td aling=\"right\">" + currFormat.format(total) + "</td></tr>");
+        	out.println("</table>");
+
+			// Update order total
+			sql = "UPDATE OrderSummary SET totalAmount=? WHERE orderId=?";
+			ps = con.prepareStatement(sql);
+			ps.setDouble(1, total);
+			ps.setInt(2, orderId);			
+			ps.executeUpdate();						
+
+			out.println("<h1>Order completed.  Will be shipped soon...</h1>");
+			out.println("<h1>Your order reference number is: "+orderId+"</h1>");
+			out.println("<h1>Shipping to customer: " + custId + "</h1>" +
+						"<h1>Name: " + custName + "</h1>");
+
+			out.println("<h2><a href=\"index.jsp\">Return to shopping</a></h2>");
+			
+			// Clear session variables (cart)
+			session.setAttribute("productList", null);
+
+	} catch (SQLException ex) {
+		out.println(ex);
 	}
 
 }
-// Save order information to database
-	/*
-	// Use retrieval of auto-generated keys.
-	PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);			
-	ResultSet keys = pstmt.getGeneratedKeys();
-	keys.next();
-	int orderId = keys.getInt(1);
-	*/
-// Insert each item into OrderProduct table using OrderId from previous INSERT
-// Update total amount for order record
-// Here is the code to traverse through a HashMap
-// Each entry in the HashMap is an ArrayList with item 0-id, 1-name, 2-quantity, 3-price
-/*
-	Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
-	while (iterator.hasNext())
-	{ 
-		Map.Entry<String, ArrayList<Object>> entry = iterator.next();
-		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
-		String productId = (String) product.get(0);
-        String price = (String) product.get(2);
-		double pr = Double.parseDouble(price);
-		int qty = ( (Integer)product.get(3)).intValue();
-            ...
-	}
-*/
-// Print out order summary
-// Clear cart if order placed successfully
 %>
 </BODY>
 </HTML>
