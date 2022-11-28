@@ -9,15 +9,7 @@
 </head>
 <body>
 
-<header class="header">
-	<nav>
-		<ul>
-			<li><a href="listprod.jsp">All Products</a></li>
-			<li><a href="listorder.jsp">List All Orders</a></li>
-			<li><a href="showcart.jsp">Shopping Cart</a></li>
-		</ul>
-	</nav>
-</header>	
+<%@ include file="header.jsp" %>
 
 <h1>Order List</h1>
 
