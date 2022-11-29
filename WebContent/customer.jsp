@@ -9,6 +9,8 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ include file="jdbc.jsp" %>
 
+<h3>Customer Profile</h3>
+
 <%
 // Print prior error login message if present
 if (session.getAttribute("loginMessage") != null)
@@ -41,11 +43,6 @@ catch (java.lang.ClassNotFoundException e)
 		PreparedStatement ps = con.prepareStatement(sql);
 
 		NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-		
-			out.println("<tr align=\"right\"><td colspan=\"4\"><table border=\"1\">" + 
-						"<tr>><th>ID</th><th>First Name</th>" +
-							"<th>Last Name</th><th>Email</th></tr>Phone</th><th>Address</th>"+
-							"<th>City</th><th>State</th><th>Postal Code</th><th>Country</th><th>User ID</th></tr>");
 
 							//Data loop
 							while (rs.next()) {
@@ -53,6 +50,19 @@ catch (java.lang.ClassNotFoundException e)
 					
 								ps.setString(1, custId);
 								ResultSet custInfo = ps.executeQuery();
+
+								out.println("<table border=\"1\">" + 
+									"<tr><th>ID</th>" +
+										"<th>First Name</th>" +
+										"<th>Last Name</th>" +
+										"<th>Email</th>" +
+										"<th>Phone</th>" +
+										"<th>Address</th>" +
+										"<th>City</th>" +
+										"<th>State</th>" +
+										"<th>Postal Code</th>" +
+										"<th>Country</th>" +
+										"<th>User ID</th></tr>");
 
 							// Customer info loop
 							while(custInfo.next()) {
