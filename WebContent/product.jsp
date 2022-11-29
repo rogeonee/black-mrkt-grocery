@@ -28,9 +28,13 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 	}
 
 	// TODO: Retrieve and display info for the product
-	String s1 = "SELECT * FROM orderproduct WHERE productName = pname";
+	String s1 = "SELECT * FROM product WHERE productName = pname";
 	PreparedStatement p1 = con.prepareStatement(s1);	
 	ResultSet productInfo = p1.executeQuery();
+	
+	// TODO: If there is a productImageURL, display using IMG tag
+	String url1 = request.getParameter("productImageURL");
+	
 		
   } catch (SQLException e) {
 	  out.println("SQLException: " + e);
@@ -38,7 +42,10 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
   
 %>
 // TODO: If there is a productImageURL, display using IMG tag
+if (url1 != null) {
+// display using IMG tag
 <img src="https://github.com/rogeonee/cosc304_project/blob/main/WebContent/img/1.jpg">
+}
 
 // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
 <img src="displayImage.jsp?id=1_a">
