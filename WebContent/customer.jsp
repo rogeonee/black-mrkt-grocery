@@ -9,6 +9,8 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ include file="jdbc.jsp" %>
 
+<h3>Customer Profile</h3>
+
 <%
 // Print prior error login message if present
 if (session.getAttribute("loginMessage") != null)
