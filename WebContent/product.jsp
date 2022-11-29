@@ -13,33 +13,39 @@
 <%@ include file="header.jsp" %>
 
 <%
-// Get product name to search for
-String pname = request.getParameter("productName");
-if(pname != null) {
-	pname.trim();
-}
+// Connection info
+String url = "jdbc:sqlserver://cosc304_sqlserver:1433;databaseName=orders;TrustServerCertificate=True";
+String uid = "sa";
+String pw = "304#sa#pw";
 
-// TODO: Retrieve and display info for the product
-String s1 = "SELECT productId, quantity, price FROM orderproduct WHERE orderId = ?";
-		PreparedStatement ps1 = con.prepareStatement(s1);
+try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
+	
+	// Get product name to search for
+	String pname = request.getParameter("productName");
+	
+	if(pname != null) {
+	pname = pname.trim(); // removing whitespace
+	}
+
+	// TODO: Retrieve and display info for the product
+	String s1 = "SELECT * FROM orderproduct WHERE productName = pname";
+	PreparedStatement p1 = con.prepareStatement(s1);	
+	ResultSet productInfo = p1.executeQuery();
 		
-		ResultSet productInfo = ps1.executeQuery();
-		
-// String productId = request.getParameter("id");
-
-String sql = "";
-
+  } catch (SQLException e) {
+	  out.println("SQLException: " + e);
+  }
+  
+%>
 // TODO: If there is a productImageURL, display using IMG tag
-<img src = "https://cosc304.ok.ubc.ca/rlawrenc/tomcat/lab8/img/1.jpg">
+<img src="https://github.com/rogeonee/cosc304_project/blob/main/WebContent/img/1.jpg">
 
 // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
-<img src= "displayImage.jsp?id=1">
+<img src="displayImage.jsp?id=1_a">
 	
-// TODO: Add links to Add to Cart and Continue Shopping
-<a href="addcart.jsp?id=1&amp;name=Chai&amp;price=18.0">Add to Cart</a>
-<a href="listprod.jsp">Continue Shopping</a> 
-
-%>
+ // TODO: Add links to Add to Cart and Continue Shopping
+ <h2> <a href="addcart.jsp">Add to Cart</a></h2>
+ <h2> <a href="listprod.jsp">Continue Shopping</a></h2>
 
 </body>
 </html>
