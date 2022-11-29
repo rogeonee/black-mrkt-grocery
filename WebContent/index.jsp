@@ -20,6 +20,9 @@
 
 <%
 // TODO: Display user name that is logged in (or nothing if not logged in)	
+String userName = (String) session.getAttribute("authenticatedUser");
+if (userName != null)
+        out.println("<h3 algin =\"center\"> Signed in as: "+userName+"</h3>");
 %>
 </body>
 </head>
