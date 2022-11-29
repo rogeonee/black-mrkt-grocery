@@ -34,18 +34,19 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 	
 	// TODO: If there is a productImageURL, display using IMG tag
 	String url1 = request.getParameter("productImageURL");
-	
+	if (url1 != null) {
+		// display using IMG tag
+		
+	}
 		
   } catch (SQLException e) {
 	  out.println("SQLException: " + e);
   }
   
 %>
+	
 // TODO: If there is a productImageURL, display using IMG tag
-if (url1 != null) {
-// display using IMG tag
-<img src="https://github.com/rogeonee/cosc304_project/blob/main/WebContent/img/1.jpg">
-}
+<img src="data:image/jpg;product,[url1]" />
 
 // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
 <img src="displayImage.jsp?id=1_a">
