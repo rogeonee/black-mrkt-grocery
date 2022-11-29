@@ -38,14 +38,14 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
   
   
   // TODO: If there is a productImageURL, display using IMG tag
-  <img src = "https://github.com/rogeonee/cosc304_project/blob/main/WebContent/img/1.jpg">
+  <img src="https://github.com/rogeonee/cosc304_project/blob/main/WebContent/img/1.jpg">
 
   // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
-  <img src= "displayImage.jsp?id=1_a">
+  <img src="displayImage.jsp?id=1_a">
 	
   // TODO: Add links to Add to Cart and Continue Shopping
-  <h2 <a href="addcart.jsp">Add to Cart</a></h2>
-  <h2 <a href="listprod.jsp">Continue Shopping</a></h2>
+  <h2> <a href="addcart.jsp">Add to Cart</a></h2>
+  <h2> <a href="listprod.jsp">Continue Shopping</a></h2>
 
 %>
 
