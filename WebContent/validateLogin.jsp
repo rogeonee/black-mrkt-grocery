@@ -17,7 +17,6 @@
 		response.sendRedirect("login.jsp");		// Failed login - redirect back to login page with a message 
 %>
 
-
 <%!
 	String validateLogin(JspWriter out,HttpServletRequest request, HttpSession session) throws IOException
 	{
@@ -40,11 +39,12 @@
 		catch (SQLException ex) {
 			out.println(ex);
 		}
+		/*
 		finally
 		{
 			closeConnection();
 		}	
-		
+		*/
 		if(retStr != null)
 		{	session.removeAttribute("loginMessage");
 			session.setAttribute("authenticatedUser",username);

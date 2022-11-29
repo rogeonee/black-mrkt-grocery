@@ -54,7 +54,7 @@ catch (java.lang.ClassNotFoundException e)
 										"<th>First Name</th>" +
 										"<th>Last Name</th>" +
 										"<th>Email</th>" +
-										"</tr>Phone</th>" +
+										"<th>Phone</th>" +
 										"<th>Address</th>" +
 										"<th>City</th>" +
 										"<th>State</th>" +
