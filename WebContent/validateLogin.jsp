@@ -40,10 +40,12 @@
 		catch (SQLException ex) {
 			out.println(ex);
 		}
+		/*
 		finally
 		{
 			closeConnection();
 		}	
+		*/
 		
 		if(retStr != null)
 		{	session.removeAttribute("loginMessage");
