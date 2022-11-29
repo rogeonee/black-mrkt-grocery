@@ -8,14 +8,11 @@
 <%@ include file="auth.jsp"%>
 <%@ page import="java.text.NumberFormat" %>
 <%@ include file="jdbc.jsp" %>
-<%@ page import="java.sql.*" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 
 <%
 // Print prior error login message if present
 if (session.getAttribute("loginMessage") != null)
 	out.println("<p>"+session.getAttribute("loginMessage").toString()+"</p>");
-	response.sendRedirect("login.jsp");
 %>
 
 <%
@@ -69,10 +66,10 @@ catch (java.lang.ClassNotFoundException e)
 								String postal = custInfo.getString("postalCode");
 								String cou = custInfo.getString("country");
 								String id = custInfo.getString("userId");
-
+								
 							out.println("<tr><td>" + custId + "</td><td>" + first + "</td><td>" + last + "</td><td>" + mail +
 												"</td><td>" + phone + "</td><td>" + ad + "</td><td>" + cit + "</td><td>" + stat + 
-													"</td><td>" + postal + "</td><td>" + cou + "</td><td>" + id" + "</td></tr>");
+													"</td><td>" + postal + "</td><td>" + cou + "</td><td>" + id + "</td></tr>");
 							}
 
 			out.println("</table></td></tr>");
