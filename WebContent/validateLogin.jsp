@@ -32,19 +32,27 @@
 		try 
 		{
 			getConnection();
+			Statement stmt = con.createStatement(); 
+			stmt.execute("USE orders");
+
+			String sql = "SELECT * FROM Customer WHERE userId = ? and password = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);			
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
 			
-			// TODO: Check if userId and password match some customer account. If so, set retStr to be the username.
-			retStr = "";			
+			ResultSet rst = pstmt.executeQuery();
+					
+			if (rst.next())
+				retStr = username; // Login successful			
 		} 
 		catch (SQLException ex) {
 			out.println(ex);
 		}
-		/*
 		finally
 		{
 			closeConnection();
 		}	
-		*/
+		
 		if(retStr != null)
 		{	session.removeAttribute("loginMessage");
 			session.setAttribute("authenticatedUser",username);

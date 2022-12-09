@@ -116,14 +116,12 @@ catch (java.lang.ClassNotFoundException e)
 			String cname = rs.getString(3);
 			double price = rs.getDouble(4);
 
-			// compose individual link for each item
+			// compose individual links for each item
 			String linkCart = "addcart.jsp?id=" + pid + 
 							"&name=" + pname + 
 							"&price=" + price;
 
 			String link = "product.jsp?id=" + pid;
-
-			//String linkProd = "<a href=\"product.jsp?id=\"" + pid + ">" + pname + "</a>";
 
 			out.println("<tr><td><a href=\"" + linkCart + "\">Add to Cart</a></td><td>" + 
 						"<a href=\"" + link + "\">"+pname+"</a></td><td>" + cname + "</td><td>" + 
