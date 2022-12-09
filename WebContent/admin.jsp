@@ -5,55 +5,45 @@
 </head>
 <body>
 
-<%@ include file="auth.jsp" %>
+<%@ include file="auth.jsp"%>
+<%@ page import="java.text.NumberFormat" %>
 <%@ include file="jdbc.jsp" %>
-<%@ page import="java.util.Date" %>
-
-<h2>In progress</h2>
 
 <%
-// TODO: Write SQL query that prints out total order amount by day
-String sql = "SELECT DISTINCT orderDate FROM ordersummary";
+	String userName = (String) session.getAttribute("authenticatedUser");
+%>
 
-    String url = "jdbc:sqlserver://cosc304_sqlserver:1433;databaseName=orders;TrustServerCertificate=True";
-	String uid = "sa";
-	String pw = "304#sa#pw";
+<%
+// Print out total order amount by day
+String sql = "select year(orderDate), month(orderDate), day(orderDate), SUM(totalAmount) FROM OrderSummary GROUP BY year(orderDate), month(orderDate), day(orderDate)";
 
-    /*
-    try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
+NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
-        PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet dates = ps.executeQuery();
+try 
+{	
+	out.println("<h3>Administrator Sales Report by Day</h3>");
+	
+	getConnection();
+	Statement stmt = con.createStatement(); 
+	stmt.execute("USE orders");
 
-        String s = "SELECT orderDate, SUM(totalAmount) FROM ordersummary WHERE orderDate = ? GROUP BY orderDate";
-        PreparedStatement ps2 = con.prepareStatement(s);
+	ResultSet rst = con.createStatement().executeQuery(sql);		
+	out.println("<table class=\"table\" border=\"1\">");
+	out.println("<tr><th>Order Date</th><th>Total Order Amount</th>");	
 
-        while(dates.next()) {
-            
-            Timestamp d = dates.getTimestamp(1);
-
-            out.println("<h3>TS One: "+d+"</h3>");
-
-            ps2.setTimestamp(1, d);
-            ResultSet rs2 = ps2.executeQuery();
-
-            while(rs2.next()) {
-                Date date = rs2.getDate();
-            }
-
-            while(rs2.next()) {
-                d = rs2.getTimestamp(1);
-                out.println("<h3> TS Two: " + d + "  </h3><h3>" + rs2.getDouble(2) + "</h3>");
-            }
-            
-
-        }
-
-    } catch (SQLException e) {
-        out.println(e);
-    }
-    */
-
+	while (rst.next())
+	{
+		out.println("<tr><td>"+rst.getString(1)+"-"+rst.getString(2)+"-"+rst.getString(3)+"</td><td>"+currFormat.format(rst.getDouble(4))+"</td></tr>");
+	}
+	out.println("</table>");		
+}
+catch (SQLException ex) 
+{ 	out.println(ex); 
+}
+finally
+{	
+	closeConnection();	
+}
 %>
 
 </body>
