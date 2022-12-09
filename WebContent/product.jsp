@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>Ray's Grocery - Product Information</title>
+<title>Product Information</title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -13,40 +13,64 @@
 <%@ include file="header.jsp" %>
 
 <%
-// Connection info
 String url = "jdbc:sqlserver://cosc304_sqlserver:1433;databaseName=orders;TrustServerCertificate=True";
 String uid = "sa";
 String pw = "304#sa#pw";
 
-try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
+// Get product name to search for
+String productId = request.getParameter("id");
+
+String sql = "SELECT productId, productName, productPrice, productImageURL, productImage " +
+				"FROM Product P  WHERE productId = ?";
+
+NumberFormat currFormat = NumberFormat.getCurrencyInstance();
+
+try ( Connection con = DriverManager.getConnection(url, uid, pw); ) 
+	{
 	
-	// Get product name to search for
-	String pname = request.getParameter("productName");
+	PreparedStatement pstmt = con.prepareStatement(sql);
+	pstmt.setInt(1, Integer.parseInt(productId));
 	
-	if(pname != null) {
-	pname = pname.trim(); // removing whitespace
+	ResultSet rst = pstmt.executeQuery();
+			
+	if (!rst.next())
+	{
+		out.println("Invalid product");
 	}
-
-	// TODO: Retrieve and display info for the product
-	String s1 = "SELECT * FROM orderproduct WHERE productName = pname";
-	PreparedStatement p1 = con.prepareStatement(s1);	
-	ResultSet productInfo = p1.executeQuery();
+	else
+	{		
+		out.println("<h2>"+rst.getString(2)+"</h2>");
 		
-  } catch (SQLException e) {
-	  out.println("SQLException: " + e);
-  }
-  
-  
-  // TODO: If there is a productImageURL, display using IMG tag
-  <img src = "https://github.com/rogeonee/cosc304_project/blob/main/WebContent/img/1.jpg">
+		int prodId = rst.getInt(1);
+		out.println("<table><tr>");
+		out.println("<th>Id</th><td>" + prodId + "</td></tr>"				
+				+ "<tr><th>Price</th><td>" + currFormat.format(rst.getDouble(3)) + "</td></tr>");
+		
+		//  Retrieve any image with a URL
+		String imageLoc = rst.getString(4);
+		if (imageLoc != null)
+			out.println("<img src=\""+imageLoc+"\">");
+		
+		// Retrieve any image stored directly in database
+		String imageBinary = rst.getString(5);
+		if (imageBinary != null)
+			out.println("<img src=\"displayImage.jsp?id="+prodId+"\">");
+		out.println("</table>");
+		
 
-  // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
-  <img src= "displayImage.jsp?id=1_a">
-	
-  // TODO: Add links to Add to Cart and Continue Shopping
-  <h2 <a href="addcart.jsp">Add to Cart</a></h2>
-  <h2 <a href="listprod.jsp">Continue Shopping</a></h2>
-
+		out.println("<h3><a href=\"addcart.jsp?id="+prodId+ "&name=" + rst.getString(2)
+								+ "&price=" + rst.getDouble(3)+"\">Add to Cart</a></h3>");		
+		
+		out.println("<h3><a href=\"listprod.jsp\">Continue Shopping</a>");
+	}
+} 
+catch (SQLException ex) {
+	out.println(ex);
+}
+finally
+{
+	closeConnection();
+}
 %>
 
 </body>

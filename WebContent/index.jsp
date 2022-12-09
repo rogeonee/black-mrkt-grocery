@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <title>Ray's Grocery Main Page</title>
+        <title>Main Page</title>
+        <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1 align="center">Welcome to Ray's Grocery</h1>
+
+<%@ include file="header.jsp" %>
+
+<h1 align="center">Welcome to our almost working Grocery</h1>
 
 <h2 align="center"><a href="login.jsp">Login</a></h2>
 

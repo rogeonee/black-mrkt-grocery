@@ -111,18 +111,20 @@ catch (java.lang.ClassNotFoundException e)
 
 		// loop to print out table of products
 		while(rs.next()) {
-			String pid = rs.getString(1);
+			int pid = rs.getInt(1);
 			String pname = rs.getString(2);
 			String cname = rs.getString(3);
 			double price = rs.getDouble(4);
 
-			// compose individual link for each item
-			String link = "addcart.jsp?id=" + pid + 
+			// compose individual links for each item
+			String linkCart = "addcart.jsp?id=" + pid + 
 							"&name=" + pname + 
 							"&price=" + price;
 
-			out.println("<tr><td><a href=\"" + link + "\">Add to Cart</a></td><td>" + 
-						pname + "</td><td>" + cname + "</td><td>" + 
+			String link = "product.jsp?id=" + pid;
+
+			out.println("<tr><td><a href=\"" + linkCart + "\">Add to Cart</a></td><td>" + 
+						"<a href=\"" + link + "\">"+pname+"</a></td><td>" + cname + "</td><td>" + 
 						currFormat.format(price) + "</td></tr>");
 
 		}
