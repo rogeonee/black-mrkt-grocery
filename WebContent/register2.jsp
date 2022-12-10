@@ -18,7 +18,8 @@
 
 	String username = request.getParameter("username");
 	String password = request.getParameter("password");
-	if(username.length() > 0 && password.length() > 0) {
+	String email = request.getParameter("email");
+	if(username.length() > 0 && password.length() > 0 && email.length() > 0) {
 		// both fields have been inputted
 
 		// adding inputs to customer database		
@@ -27,7 +28,7 @@
 			getConnection();
 
 			Statement st = con.createStatement();
-			st.executeUpdate ("INSERT INTO Customer (userId, password) VALUES (username1, password1)");
+			st.executeUpdate ("INSERT INTO Customer (userId, password, email) VALUES (username1, password1,email1)");
 
 		} catch (SQLException ex) {
             System.out.println(ex.getMessage());
