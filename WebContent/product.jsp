@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>Product Information</title>
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
