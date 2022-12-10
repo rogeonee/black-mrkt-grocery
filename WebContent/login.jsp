@@ -32,6 +32,8 @@ if (session.getAttribute("loginMessage") != null)
 </table>
 <br/>
 <input class="submit" type="submit" name="Submit2" value="Log In">
+<h3 align="center"><a href="forgotPassword.jsp">Forgot Password?</a></h3>
+<h3 align="center"><a href="register.jsp">Don't have an account? Register here</a></h3>
 </form>
 
 </div>

@@ -24,7 +24,7 @@
 	<td><input type="password" name="password" size=10 maxlength="10"></td>
 </tr>
 <tr>
-	<td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Password:</font></div></td>
+	<td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Email:</font></div></td>
 	<td><input type="email" name="email" size=10 maxlength="50"></td>
 </tr>
 </table>
