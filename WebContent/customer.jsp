@@ -2,12 +2,14 @@
 <html>
 <head>
 <title>Customer Page</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <%@ include file="auth.jsp"%>
 <%@ page import="java.text.NumberFormat" %>
 <%@ include file="jdbc.jsp" %>
+<%@ include file="header.jsp" %>
 
 <%
 	String userName = (String) session.getAttribute("authenticatedUser");
@@ -52,6 +54,25 @@ try
 		out.println("<tr><th>Country</th><td>"+rst.getString(10)+"</td></tr>");
 		out.println("<tr><th>User id</th><td>"+rst.getString(11)+"</td></tr>");		
 		out.println("</table>");
+	}
+
+	out.println("<h3>Your Orders</h3>");
+
+	String s = "SELECT orderId, orderDate, totalAmount FROM ordersummary WHERE customerId = ?";
+	PreparedStatement ps = con.prepareStatement(s);
+	ps.setInt(1, rst.getInt(1));
+	ResultSet rs = ps.executeQuery();
+
+	out.println("<tr align=\"right\"><td colspan=\"4\"><table border=\"1\">" + 
+		"<tr><th>Product ID</th><th>Quantity</th><th>Price</th></tr>");
+
+	while(rs.next()) {
+		String prodId = rs.getString(1);
+		String date = rs.getString(2);
+		double price = rs.getDouble(3);
+
+		out.println("<tr><td>" + prodId + "</td><td>" + date +
+			"</td><td>" + currFormat.format(price) + "</td></tr>");
 	}
 }
 catch (SQLException ex) 

@@ -8,7 +8,7 @@
 		<%
 				if(session.getAttribute("authenticatedUser") != null) {
 					String name = session.getAttribute("authenticatedUser").toString();
-					out.println("<b align='right' style='margin:20px'>Signed as: "+name+"</b>");
+					out.println("<b align='right' style='margin:20px'><a href='customer.jsp'>Signed as: "+name+"</a></b>");
 				}
 			%>
 	</nav>
