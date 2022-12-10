@@ -62,6 +62,10 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); )
 								+ "&price=" + rst.getDouble(3)+"\">Add to Cart</a></h3>");		
 		
 		out.println("<h3><a href=\"listprod.jsp\">Continue Shopping</a>");
+		
+		out.println("<h3><a href=\"review.jsp\">Review Product</a>");
+
+		out.println("<h3><a href=\"ratings.jsp\">View Ratings</a>");
 	}
 } 
 catch (SQLException ex) {
