@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <title>Main Page</title>
+        <title>Black Market Grocery</title>
         <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <%@ include file="header.jsp" %>
 
-<h1 align="center">Welcome to our almost working Grocery</h1>
+<h1 align="center">Welcome Black Market Grocery</h1>
 
 <h2 align="center"><a href="login.jsp">Login</a></h2>
 

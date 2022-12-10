@@ -71,7 +71,6 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 	NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 	
 	try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
-		out.println("<H1>Order Summary</H1>");
 
 			// Enter order information into database
 			String sql = "INSERT INTO OrderSummary (customerId, totalAmount, orderDate) VALUES(?, 0, ?);";
