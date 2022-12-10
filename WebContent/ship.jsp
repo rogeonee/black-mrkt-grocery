@@ -9,7 +9,7 @@
 
 <html>
 <head>
-	<title>OUR NAME Grocery Shipment Processing</title>
+	<title>Shipment Processing</title>
 	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -102,8 +102,8 @@ if(validId) {
 			update.setInt(2, productId);
 			update.executeUpdate();
 			
-			out.println("<h1>Ordered Product: " + productId + "  Qty: " + orderQT + "  " +
-						"Previous inventory: " + invQT + "  New inventory: " + (invQT - orderQT) + "</h1>");
+			out.println("<h1>Ordered Product: " + productId + "<br>  Quantity: " + orderQT + "  " +
+						"<br>Previous inventory: " + invQT + "<br>  New inventory: " + (invQT - orderQT) + "</h1>");
 		}
 	}
 
