@@ -25,10 +25,12 @@
 <h2 align="center"><a href="register.jsp">Register</a></h2>
 
 <%
-// TODO: Display user name that is logged in (or nothing if not logged in)	
+// TODO: Display user name that is logged in (or nothing if not logged in)
+/*
 String userName = (String) session.getAttribute("authenticatedUser");
 if (userName != null)
         out.println("<h3 algin =\"center\"> Signed in as: "+userName+"</h3>");
+*/        
 %>
 </body>
 </head>

@@ -18,7 +18,6 @@
 // Get the current list of products
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
-
 if (productList == null)
 {	out.println("<H1>Your shopping cart is empty!</H1>");
 	productList = new HashMap<String, ArrayList<Object>>();
@@ -26,11 +25,9 @@ if (productList == null)
 else
 {
 	NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-
 	out.println("<h1>Your Shopping Cart</h1>");
 	out.print("<table><tr><th>Product Id</th><th>Product Name</th><th>Quantity</th>");
 	out.println("<th>Price</th><th>Subtotal</th></tr>");
-
 	double total =0;
 	Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
 	while (iterator.hasNext()) 
@@ -44,7 +41,6 @@ else
 		
 		out.print("<tr><td>"+product.get(0)+"</td>");
 		out.print("<td>"+product.get(1)+"</td>");
-
 		out.print("<td align=\"center\">"+product.get(3)+"</td>");
 		Object price = product.get(2);
 		Object itemqty = product.get(3);
@@ -67,7 +63,6 @@ else
 		{
 			out.println("Invalid quantity for product: "+product.get(0)+" quantity: "+qty);
 		}		
-
 		out.print("<td align=\"right\">"+currFormat.format(pr)+"</td>");
 		out.print("<td align=\"right\">"+currFormat.format(pr*qty)+"</td></tr>");
 		out.println("</tr>");
@@ -76,7 +71,6 @@ else
 	out.println("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td>"
 			+"<td align=\"right\">"+currFormat.format(total)+"</td></tr>");
 	out.println("</table>");
-
 	out.println("<h2><a href=\"checkout.jsp\">Check Out</a></h2>");
 }
 %>
