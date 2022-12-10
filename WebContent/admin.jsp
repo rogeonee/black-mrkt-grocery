@@ -2,12 +2,14 @@
 <html>
 <head>
 <title>Administrator Page</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <%@ include file="auth.jsp"%>
 <%@ page import="java.text.NumberFormat" %>
 <%@ include file="jdbc.jsp" %>
+<%@ include file="header.jsp" %>
 
 
 <h1 align="center">Administrator Page</h1>
@@ -21,10 +23,12 @@
 <h2 align="center"><a href="logout.jsp">Log out</a></h2>
 
 <%
-// TODO: Display user name that is logged in (or nothing if not logged in)	
+// TODO: Display user name that is logged in (or nothing if not logged in)
+/*
 String userName = (String) session.getAttribute("authenticatedUser");
 if (userName != null)
         out.println("<h3 algin =\"center\"> Signed in as: "+userName+"</h3>");
+*/
 %>
 
 </body>

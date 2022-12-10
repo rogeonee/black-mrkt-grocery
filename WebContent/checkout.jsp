@@ -2,7 +2,11 @@
 <html>
 <head>
 <title>Ray's Grocery CheckOut Line</title>
+<link rel="stylesheet" href="styles.css">
 </head>
+
+<%@ include file="header.jsp" %>
+
 <body>
 
 <h1>Enter your customer id to complete the transaction:</h1>

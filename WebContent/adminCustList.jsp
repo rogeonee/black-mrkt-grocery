@@ -2,12 +2,14 @@
 <html>
 <head>
 <title>Administrator Page</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <%@ include file="auth.jsp"%>
 <%@ page import="java.text.NumberFormat" %>
 <%@ include file="jdbc.jsp" %>
+<%@ include file="header.jsp" %>
 
 <h3>Customer List</h3>
 
