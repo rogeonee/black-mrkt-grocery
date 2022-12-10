@@ -4,20 +4,6 @@
 	<title>Forgot Password</title>
     <%@ include file="header.jsp" %>
 	<link rel="stylesheet" href="styles.css">
-    <form name="MyForm" method=post action="validateLogin.jsp">
-        <table style="display:inline">
-        <tr>
-            <td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Username:</font></div></td>
-            <td><input type="text" name="username"  size=10 maxlength=10></td>
-        </tr>
-        <tr>
-            <td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Email:</font></div></td>
-            <td><input type="email" name="email" size=10 maxlength="50"></td>
-        </tr>
-        </table>
-        <br/>
-        <input class="submit" type="submit" name="Submit2" value="Submit">
-    </form>
 </head>
 <body>
 
@@ -26,8 +12,23 @@
 
 <%@ page language="java" import="java.io.*,java.sql.*"%>
 <%@ include file="jdbc.jsp" %>
-<%
 
+<form name="MyForm" method=post action="validateLogin.jsp">
+    <table style="display:inline">
+    <tr>
+        <td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Username:</font></div></td>
+        <td><input type="text" name="username"  size=10 maxlength=10></td>
+    </tr>
+    <tr>
+        <td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Email:</font></div></td>
+        <td><input type="email" name="email" size=10 maxlength="50"></td>
+    </tr>
+    </table>
+    <br/>
+    <input class="submit" type="submit" name="Submit2" value="Log In">
+</form>
+
+<%
 String username = request.getParameter("username");
 String mail = request.getParameter("email");
 //Check if valid user and email

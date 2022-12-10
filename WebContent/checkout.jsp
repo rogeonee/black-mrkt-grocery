@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ray's Grocery CheckOut Line</title>
+<title>Check Out</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<%@ include file="header.jsp" %>
 
 <h1>Enter The Following Details To Complete The Transaction:</h1>
 
