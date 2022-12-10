@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Forgot Password</title>
+    <%@ include file="header.jsp" %>
 	<link rel="stylesheet" href="styles.css">
     <form name="MyForm" method=post action="validateLogin.jsp">
         <table style="display:inline">
@@ -15,14 +16,17 @@
         </tr>
         </table>
         <br/>
-        <input class="submit" type="submit" name="Submit2" value="Log In">
+        <input class="submit" type="submit" name="Submit2" value="Submit">
     </form>
 </head>
 <body>
+
+
+<div style="margin:0 auto;text-align:center;display:inline">
+
 <%@ page language="java" import="java.io.*,java.sql.*"%>
 <%@ include file="jdbc.jsp" %>
 <%
-
 
 String username = request.getParameter("username");
 String mail = request.getParameter("email");
@@ -31,35 +35,34 @@ String mail = request.getParameter("email");
 	String uid = "sa";
 	String pw = "304#sa#pw";
 
-	boolean validId = false;
+	boolean valid = false;
 
 	try ( Connection con = DriverManager.getConnection(url, uid, pw); ) {
 
 		String sql = "SELECT userid,email FROM customer";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, uid);
+		ps.setString(1, username);
         ps.setString(2, mail);
 
 		ResultSet rst = ps.executeQuery();
         while(rst.next()) {
         if(rst.getString("userid").equals(username))
-        if(rst.getString("email").equals(mail))
-        validId = true;
+        if(rst.getString("email").equals(mail)) {
+        valid = true;
     }
 }
-        if(validId){
+//
+        if(valid == true ){
         out.println("<h1>Success! Check resgitered email for password and login.</h1>");
         }
         else {
             out.println("<h1>User entered does not exist. Register for a new account or Login.</h1>");
-            <h2 align="center"><a href="login.jsp">Login</a></h2>
-            <h2 align="center"><a href="register.jsp">Register</a></h2>
-
+            out.println("<h2 align='center'><a href='login.jsp'>Login</a></h2>");
+            out.println("<h2 align='center'><a href='register.jsp'>Register</a></h2>");
         }
-	} catch (SQLException e) {
-		out.println("<h1>Invalid username or email. Try again.</h1>");
-	}
+	} catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
 %>	
-
 </body>
 </html>
