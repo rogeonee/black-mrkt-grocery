@@ -12,7 +12,6 @@
 
 <h3>Please Register To Use This Site</h3>
 
-
 <br>
 <form name="MyForm" method=post action="register2.jsp">
 <table style="display:inline">

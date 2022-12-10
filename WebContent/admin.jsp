@@ -11,7 +11,6 @@
 <%@ include file="jdbc.jsp" %>
 <%@ include file="header.jsp" %>
 
-
 <h1 align="center">Administrator Page</h1>
 
 <h2 align="center"><a href="adminSaleList.jsp">Sale List</a></h2>
