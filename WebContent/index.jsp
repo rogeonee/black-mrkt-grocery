@@ -21,6 +21,8 @@
 <h2 align="center"><a href="admin.jsp">Administrators</a></h2>
 
 <h2 align="center"><a href="logout.jsp">Log out</a></h2>
+        
+<h2 align="center"><a href="register.jsp">Register</a></h2>
 
 <%
 // TODO: Display user name that is logged in (or nothing if not logged in)	
